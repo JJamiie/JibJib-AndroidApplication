@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimary2">#00ACC1</color>
+    <color name="colorPrimary3">#00a0b4</color>
+    <color name="colorPrimary4">#0095a7</color>
+    <color name="colorPrimaryLight1">#80DEEA</color>
+    <color name="colorPrimaryLight2">#4DD0E1</color>
+    <color name="colorPrimaryLight3">#26C6DA</color>
+    <color name="colorPrimarySuperLight">#e7f7f9</color>
+    <color name="colorPrimaryDark">#00ACC1</color>
+    <color name="colorPrimarySuperDark">#0290a1</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blueSky">#48BCE3</color>
+    <color name="pink">#E6477F</color>
+    <color name="pinkDark">#D03577</color>
+    <color name="blueSkyDark">#3C9FBC</color>
+    <color name="grayDark">#545353</color>
+    <color name="gray">#8e8d8d</color>
+    <color name="grayLight">#D4D6D8</color>
+    <color name="graySuperLight">#e8e9ea</color>
+    <color name="transparent">#00000000</color>
+    <color name="facebook">#2F4785</color>
+    <color name="facebookDark">#1e346b</color>
+    <color name="grayTransparent">#4DD4D6D8</color>
+    <color name="graySuperDark">#3e3e3e</color>
+    <color name="overlay">#80000000</color>
+    <color name="yellow">#FFC107</color>
+    <color name="yellowDark">#FF8F00</color>
+
+
+</resources>

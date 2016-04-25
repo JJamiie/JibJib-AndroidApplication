@@ -1,0 +1,79 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jjamie.virtualadhoc.NewFeedFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@color/grayLight"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <Button
+                android:id="@+id/btn_from_language"
+                style="@style/btn_change_language"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:background="@drawable/btn_from_language_selector"
+                android:stateListAnimator="@null"
+                android:text="English"
+                android:onClick="mClick" />
+
+            <Button
+                android:id="@+id/btn_to_language"
+                style="@style/btn_change_language"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="-17dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_to_language_selector"
+                android:stateListAnimator="@null"
+                android:text="Thai" />
+
+            <RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="+"
+                    android:textColor="@color/grayDark"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/btn_create_ques"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stateListAnimator="@null"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view_question"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+</FrameLayout>

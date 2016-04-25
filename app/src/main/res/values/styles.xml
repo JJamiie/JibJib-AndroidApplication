@@ -1,0 +1,140 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ListViewStyle">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="divider">@null</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+
+    <style name="text_item_question_header">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="text_item_question_footer">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">11dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_item_question_footer.large">
+        <item name="android:textSize">14dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="text_item_question_detail">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+
+    <style name="text_item_question_detail.blue">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="text_item_question_detail.yellow">
+        <item name="android:textColor">@color/yellowDark</item>
+    </style>
+
+    <style name="text_item_question_detail.pink">
+        <item name="android:textColor">@color/pinkDark</item>
+    </style>
+
+    <style name="text_item_question_detail.large">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+
+    <style name="btn_change_language">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grayDark</item>
+
+    </style>
+
+    <style name="profile_info.large">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="profile_info">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="text_profile_header">
+        <item name="android:textSize">14dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="text_profile_header.large">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="edit_text_profile">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="create_translation">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="create_translation.title">
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+
+    <style name="create_translation.text">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="create_translation.symbol">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="create_edittext">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+    </style>
+
+</resources>
+

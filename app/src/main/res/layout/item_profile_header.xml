@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:id="@+id/frame_profile"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_centerHorizontal="true">
+
+            <View
+                android:layout_width="108dp"
+                android:layout_height="108dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circlewhite" />
+
+            <ImageView
+                android:id="@+id/img_profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile" />
+
+            <Button
+                android:id="@+id/btn_edt_profile"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|right"
+                android:background="@drawable/circlewhite" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="7dp"
+                android:src="@drawable/ic_edit" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txt_profile_name"
+            style="@style/profile_info.large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frame_profile"
+            android:layout_marginTop="10dp"
+            android:text="JJamie Rashata" />
+
+        <TextView
+            android:id="@+id/txt_profile_study"
+            style="@style/profile_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_profile_name"
+            android:layout_marginTop="3dp"
+            android:text="Computer engineering" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_profile_header.large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="591" />
+
+            <TextView
+                style="@style/text_profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight1"
+                android:text="answers" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary3"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_profile_header.large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="215" />
+
+            <TextView
+                style="@style/text_profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight1"
+                android:text="votes" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary4"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_profile_header.large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="24" />
+
+            <TextView
+                style="@style/text_profile_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryLight1"
+                android:text="comments" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
