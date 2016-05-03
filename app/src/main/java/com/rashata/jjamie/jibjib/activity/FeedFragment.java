@@ -4,22 +4,32 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
 import com.rashata.jjamie.jibjib.R;
+import com.rashata.jjamie.jibjib.util.HTTPHelper;
 import com.rashata.jjamie.jibjib.util.Question;
 import com.rashata.jjamie.jibjib.util.RVQuestionAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 
 /**
@@ -35,6 +45,7 @@ public class FeedFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "FeedFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -47,6 +58,7 @@ public class FeedFragment extends Fragment {
     private Button btn_from_language;
     private Button btn_to_language;
     private Button btn_create_que;
+    private String token;
 
 
     public FeedFragment() {
@@ -75,10 +87,11 @@ public class FeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            token = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        questions = new ArrayList<>();
+        loadQuestion();
     }
 
     @Override
@@ -220,4 +233,42 @@ public class FeedFragment extends Fragment {
                 });
         builderSingle.show();
     }
+
+    public void loadQuestion() {
+        final AsyncTask<Void, Void, String> question = new AsyncTask<Void, Void, String>() {
+
+            @Override
+            protected String doInBackground(Void... params) {
+                HTTPHelper httpHelper = new HTTPHelper();
+                return httpHelper.GET("http://10.201.136.154:8000/api/questions/");
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                questions.clear();
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                        Question question = new Question();
+                        question.id = jsonObject.getString("id");
+                        question.owner = jsonObject.getString("owner");
+                        question.title = jsonObject.getString("title");
+                        question.content = jsonObject.getString("content");
+                        question.from_lang = jsonObject.getString("from_lang");
+                        question.to_lang = jsonObject.getString("to_lang");
+                        questions.add(question);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        question.execute();
+
+    }
+
+
 }

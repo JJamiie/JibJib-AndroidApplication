@@ -2,6 +2,7 @@ package com.rashata.jjamie.jibjib.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,7 +27,7 @@ import android.widget.TextView;
 
 import com.rashata.jjamie.jibjib.R;
 
-public class TabActivity extends AppCompatActivity implements FeedFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener ,InboxFragment.OnFragmentInteractionListener {
+public class TabActivity extends AppCompatActivity implements FeedFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, InboxFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,6 +38,7 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private String token;
     private int[] tabIcons = {R.drawable.image_tab_1, R.drawable.image_tab_2, R.drawable.image_tab_3, R.drawable.image_tab_4};
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -64,6 +66,9 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
 
     }
 
@@ -135,8 +140,7 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tab, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
@@ -158,9 +162,9 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return FeedFragment.newInstance("", "");
+                    return FeedFragment.newInstance(token, "");
                 case 1:
-                    return InboxFragment.newInstance("","");
+                    return InboxFragment.newInstance("", "");
                 case 3:
                     return ProfileFragment.newInstance("", "");
             }

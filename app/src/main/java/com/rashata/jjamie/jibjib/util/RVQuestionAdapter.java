@@ -45,16 +45,17 @@ public class RVQuestionAdapter extends RecyclerView.Adapter<RVQuestionAdapter.Qu
                 qvh.linearLyt_item_header.setBackgroundResource(R.color.pink);
                 qvh.linearLyt_item_footer.setBackgroundResource(R.color.pinkDark);
         }
-        qvh.txt_to_language.setText(questions.get(position).to_language);
-        qvh.txt_from_language.setText(questions.get(position).from_language);
-        qvh.txt_number_of_answers.setText(questions.get(position).number_of_answers);
-        qvh.txt_number_of_views.setText(questions.get(position).number_of_views);
-        qvh.txt_number_of_votes.setText(questions.get(position).number_of_votes);
-        qvh.txt_item_title.setText(questions.get(position).item_title);
-        qvh.txt_item_description.setText(questions.get(position).item_description);
-        qvh.txt_time_created.setText(questions.get(position).time_created.toString());
-        qvh.txt_name_user_created.setText(questions.get(position).name_user_created.toString());
         */
+        qvh.txt_to_language.setText(questions.get(position).to_lang);
+        qvh.txt_from_language.setText(questions.get(position).from_lang);
+//        qvh.txt_number_of_answers.setText(questions.get(position).number_of_answers);
+//        qvh.txt_number_of_views.setText(questions.get(position).number_of_views);
+//        qvh.txt_number_of_votes.setText(questions.get(position).number_of_votes);
+        qvh.txt_item_title.setText(questions.get(position).title);
+        qvh.txt_item_description.setText(questions.get(position).content);
+//        qvh.txt_time_created.setText(questions.get(position).time_created.toString());
+        qvh.txt_name_user_created.setText(questions.get(position).owner);
+
         qvh.rel_item_que.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +67,7 @@ public class RVQuestionAdapter extends RecyclerView.Adapter<RVQuestionAdapter.Qu
 
     @Override
     public int getItemCount() {
-        return 4;
+        return questions.size();
     }
 
     public static class QuestionViewHolder extends RecyclerView.ViewHolder {

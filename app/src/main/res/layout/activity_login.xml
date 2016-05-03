@@ -1,85 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context="com.rashata.jjamie.jibjib.activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="35dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="60dp"
-            android:src="@drawable/app_logo" />
-
-        <EditText
-            style="@style/edit_text_profile"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:singleLine="true"
-            android:hint="username" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="35dp">
 
-        <EditText
-            style="@style/edit_text_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="password"
-            android:singleLine="true"
-            android:inputType="textPassword" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="60dp"
+                android:src="@drawable/app_logo" />
+
+            <EditText
+                android:id="@+id/edt_username"
+                style="@style/edit_text_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="username"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                style="@style/edit_text_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:hint="password"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <CheckBox
+                android:id="@+id/chk_remember_usr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:buttonTint="#FFFFFF"
+                android:text="Remember Username"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_round"
+                android:onClick="clickSignIn"
+                android:text="Sign in"
+                android:textColor="@color/colorPrimary" />
+
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btn_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/btn_round"
-            android:text="Sign in"
-            android:onClick="clickSignIn"
-            android:textColor="@color/colorPrimary" />
-
-        <RelativeLayout
+            android:id="@+id/btn_sign_up"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/btn_facebook_round"
-            android:gravity="center"
-            android:clickable="true"
-            >
-            <ImageView
-                android:id="@+id/logo_facebook"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo_facebook"/>
-            <TextView
-                android:layout_toRightOf="@id/logo_facebook"
-                android:text="Sign in with Facebook"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
+            android:background="@drawable/btn_signup"
+            android:text="New here? Sign up"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/btn_sign_up"
+    <FrameLayout
+        android:id="@+id/layout_loading"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_signup"
-        android:text="New here? Sign up"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/overlayWhite" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+</FrameLayout>
