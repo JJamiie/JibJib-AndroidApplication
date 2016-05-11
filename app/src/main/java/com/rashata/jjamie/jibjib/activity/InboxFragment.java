@@ -2,6 +2,7 @@ package com.rashata.jjamie.jibjib.activity;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,10 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rashata.jjamie.jibjib.R;
-import com.rashata.jjamie.jibjib.util.Question;
-import com.rashata.jjamie.jibjib.util.RVQuestionAdapter;
+import com.rashata.jjamie.jibjib.manager.RESTAPIRetrofit;
+import com.rashata.jjamie.jibjib.serializer.Question;
+import com.rashata.jjamie.jibjib.adapter.RVQuestionAdapter;
+import com.rashata.jjamie.jibjib.util.MyHelper;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,15 +40,18 @@ public class InboxFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "InboxFragment";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String token;
 
     private RecyclerView recycle_view_my_question;
     private OnFragmentInteractionListener mListener;
     private ArrayList<Question> my_questions;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RVQuestionAdapter rvQuestionAdapter;
 
     public InboxFragment() {
         // Required empty public constructor
@@ -66,9 +79,10 @@ public class InboxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            token = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        my_questions = new ArrayList<>();
     }
 
     @Override
@@ -78,6 +92,13 @@ public class InboxFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inbox, container, false);
         bindWidget(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadMyQuestion();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -96,7 +117,7 @@ public class InboxFragment extends Fragment {
         recycle_view_my_question.setLayoutManager(llm);
 
         my_questions = new ArrayList<Question>();
-        RVQuestionAdapter rvQuestionAdapter = new RVQuestionAdapter(my_questions, getActivity());
+        rvQuestionAdapter = new RVQuestionAdapter(my_questions, getActivity(), token);
         recycle_view_my_question.setAdapter(rvQuestionAdapter);
 
         // set refresh when scroll recycle
@@ -114,7 +135,7 @@ public class InboxFragment extends Fragment {
     public void refreshItems() {
         // Load items
         // ...
-
+        loadMyQuestion();
         // Load complete
         onItemsLoadComplete();
     }
@@ -158,4 +179,40 @@ public class InboxFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void loadMyQuestion() {
+        AsyncTask<Void, Void, Void> loadMyQuestionTask = new AsyncTask<Void, Void, Void>() {
+
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+//                String BASE_URL = "http://192.168.1.34:8000";
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(MyHelper.getInstance().getBaseUrl())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RESTAPIRetrofit restapiRetrofit = retrofit.create(RESTAPIRetrofit.class);
+                Call<List<Question>> call = restapiRetrofit.getMyQuestions(token);
+                call.enqueue(new Callback<List<Question>>() {
+
+                    @Override
+                    public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                        my_questions.clear();
+                        my_questions.addAll(response.body());
+                        rvQuestionAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Question>> call, Throwable t) {
+
+                    }
+                });
+                return null;
+            }
+        };
+        loadMyQuestionTask.execute();
+    }
+
+
 }

@@ -11,14 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.rashata.jjamie.jibjib.R;
-import com.rashata.jjamie.jibjib.util.Comment;
-import com.rashata.jjamie.jibjib.util.RVProfileAdapter;
+import com.rashata.jjamie.jibjib.serializer.Comment;
+import com.rashata.jjamie.jibjib.adapter.RVProfileAdapter;
 
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,12 +34,12 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String token;
 
     private RecyclerView recyclerView_profile;
     private OnFragmentInteractionListener mListener;
 
     private ImageView img_profile;
-    private ArrayList<Comment> comments;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -70,7 +67,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            token = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -84,19 +81,15 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void bindWidget(View view){
+    public void bindWidget(View view) {
         recyclerView_profile = (RecyclerView) view.findViewById(R.id.recycle_view_profile);
         recyclerView_profile.setHasFixedSize(true);
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView_profile.setLayoutManager(llm);
 
-        comments = new ArrayList<Comment>();
-
-        RVProfileAdapter rvProfileAdapter = new RVProfileAdapter(comments,getActivity());
+        RVProfileAdapter rvProfileAdapter = new RVProfileAdapter(getActivity(), token);
         recyclerView_profile.setAdapter(rvProfileAdapter);
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

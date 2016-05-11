@@ -19,17 +19,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.rashata.jjamie.jibjib.R;
-import com.rashata.jjamie.jibjib.util.HTTPHelper;
-import com.rashata.jjamie.jibjib.util.Question;
-import com.rashata.jjamie.jibjib.util.RVQuestionAdapter;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.rashata.jjamie.jibjib.manager.RESTAPIRetrofit;
+import com.rashata.jjamie.jibjib.serializer.Question;
+import com.rashata.jjamie.jibjib.adapter.RVQuestionAdapter;
+import com.rashata.jjamie.jibjib.util.MyHelper;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -59,6 +61,9 @@ public class FeedFragment extends Fragment {
     private Button btn_to_language;
     private Button btn_create_que;
     private String token;
+    private RVQuestionAdapter rv_adapter;
+    private ArrayAdapter<String> arrayAdapterFrom;
+    private ArrayAdapter<String> arrayAdapterTo;
 
 
     public FeedFragment() {
@@ -91,7 +96,6 @@ public class FeedFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         questions = new ArrayList<>();
-        loadQuestion();
     }
 
     @Override
@@ -99,8 +103,16 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        setDialogAdapter();
         bindWidget(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadQuestion();
+
     }
 
     public void bindWidget(View view) {
@@ -112,7 +124,7 @@ public class FeedFragment extends Fragment {
         recycler_view_question.setLayoutManager(llm);
 
         questions = new ArrayList<>();
-        RVQuestionAdapter rv_adapter = new RVQuestionAdapter(questions, getActivity());
+        rv_adapter = new RVQuestionAdapter(questions, getActivity(), token);
         recycler_view_question.setAdapter(rv_adapter);
 
         // set refresh when scroll recycle
@@ -129,14 +141,14 @@ public class FeedFragment extends Fragment {
         btn_from_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showChooseLanguageDialog(btn_from_language);
+                showFromDialog();
             }
         });
         btn_to_language = (Button) view.findViewById(R.id.btn_to_language);
         btn_to_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showChooseLanguageDialog(btn_to_language);
+                showToDialog();
             }
         });
 
@@ -145,9 +157,53 @@ public class FeedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateTranslation.class);
+                intent.putExtra("token", token);
                 startActivity(intent);
             }
         });
+    }
+
+    public void setDialogAdapter() {
+        arrayAdapterFrom = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item);
+        arrayAdapterFrom.add("Thai");
+        arrayAdapterFrom.add("English");
+        arrayAdapterFrom.add("Chinese");
+        arrayAdapterTo = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item);
+        arrayAdapterTo.add("Thai");
+        arrayAdapterTo.add("English");
+        arrayAdapterTo.add("Chinese");
+    }
+
+    public void showFromDialog() {
+        final AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setAdapter(
+                arrayAdapterFrom,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = arrayAdapterFrom.getItem(which);
+                        btn_from_language.setText(strName);
+                        setDialogAdapter();
+                        arrayAdapterTo.remove(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    public void showToDialog() {
+        final AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setAdapter(
+                arrayAdapterTo,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = arrayAdapterTo.getItem(which);
+                        btn_to_language.setText(strName);
+                        setDialogAdapter();
+                        arrayAdapterFrom.remove(strName);
+                    }
+                });
+        builderSingle.show();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -192,7 +248,7 @@ public class FeedFragment extends Fragment {
     public void refreshItems() {
         // Load items
         // ...
-
+        loadQuestion();
         // Load complete
         onItemsLoadComplete();
     }
@@ -221,54 +277,41 @@ public class FeedFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String strName = arrayAdapter.getItem(which);
                         button.setText(strName);
-                        switch (strName) {
-                            case "Thai":
-                                break;
-                            case "English":
-                                break;
-                            case "Chinese":
-                                break;
-                        }
                     }
                 });
         builderSingle.show();
     }
 
     public void loadQuestion() {
-        final AsyncTask<Void, Void, String> question = new AsyncTask<Void, Void, String>() {
+        AsyncTask<Void, Void, Void> loadAllQuestionTask = new AsyncTask<Void, Void, Void>() {
 
             @Override
-            protected String doInBackground(Void... params) {
-                HTTPHelper httpHelper = new HTTPHelper();
-                return httpHelper.GET("http://10.201.136.154:8000/api/questions/");
-            }
+            protected Void doInBackground(final Void... params) {
+//                String BASE_URL = "http://192.168.1.34:8000";
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(MyHelper.getInstance().getBaseUrl())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RESTAPIRetrofit restapiRetrofit = retrofit.create(RESTAPIRetrofit.class);
+                Call<List<Question>> call = restapiRetrofit.getAllQuestions();
+                call.enqueue(new Callback<List<Question>>() {
 
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                questions.clear();
-                try {
-                    JSONArray jsonArray = new JSONArray(result);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                        Question question = new Question();
-                        question.id = jsonObject.getString("id");
-                        question.owner = jsonObject.getString("owner");
-                        question.title = jsonObject.getString("title");
-                        question.content = jsonObject.getString("content");
-                        question.from_lang = jsonObject.getString("from_lang");
-                        question.to_lang = jsonObject.getString("to_lang");
-                        questions.add(question);
+                    @Override
+                    public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                        questions.clear();
+                        questions.addAll(response.body());
+                        rv_adapter.notifyDataSetChanged();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
+                    @Override
+                    public void onFailure(Call<List<Question>> call, Throwable t) {
+
+                    }
+                });
+                return null;
             }
         };
-        question.execute();
-
+        loadAllQuestionTask.execute();
     }
-
 
 }

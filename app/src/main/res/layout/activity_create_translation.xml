@@ -22,11 +22,13 @@
             android:background="@color/grayLight" />
 
         <RelativeLayout
+            android:id="@+id/rel_from_create"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/btn_select_language"
             android:clickable="true"
             android:gravity="center_vertical"
+            android:onClick="showFromDialog"
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
@@ -37,12 +39,12 @@
                 android:text="From" />
 
             <TextView
+                android:id="@+id/txt_from_create"
                 style="@style/create_translation.text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/ic_more"
-                android:text="Thai" />
+                android:layout_toLeftOf="@+id/ic_more" />
 
             <TextView
                 android:id="@+id/ic_more"
@@ -61,12 +63,13 @@
             android:background="@color/grayLight" />
 
         <RelativeLayout
-
+            android:id="@+id/rel_to_create"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/btn_select_language"
             android:clickable="true"
             android:gravity="center_vertical"
+            android:onClick="showToDialog"
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
@@ -77,12 +80,12 @@
                 android:text="To" />
 
             <TextView
+                android:id="@+id/txt_to_create"
                 style="@style/create_translation.text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/ic_more2"
-                android:text="Thai" />
+                android:layout_toLeftOf="@+id/ic_more2" />
 
             <TextView
                 android:id="@+id/ic_more2"
@@ -105,12 +108,13 @@
             android:background="@color/grayLight" />
 
         <EditText
+            android:id="@+id/edt_translation_title_create"
+            style="@style/create_edittext"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Translation Title"
-            android:singleLine="true"
             android:background="@color/white"
-            style="@style/create_edittext" />
+            android:hint="Translation Title"
+            android:singleLine="true" />
 
         <View
             android:layout_width="match_parent"
@@ -126,13 +130,13 @@
             android:background="@color/white">
 
             <EditText
+                android:id="@+id/edt_content_create"
+                style="@style/create_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
                 android:hint="Content"
-                android:paddingTop="12dp"
-                style="@style/create_edittext"
-                />
+                android:paddingTop="12dp" />
         </ScrollView>
 
         <Button
@@ -140,7 +144,26 @@
             android:layout_height="50dp"
             android:background="@drawable/btn_blue"
             android:text="Create"
+            android:onClick="createTranslation"
             android:textColor="@color/white" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/overlayWhite" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
 
 </RelativeLayout>

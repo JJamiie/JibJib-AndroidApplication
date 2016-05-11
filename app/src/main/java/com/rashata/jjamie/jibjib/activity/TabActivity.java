@@ -64,8 +64,8 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[3]);
 
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
@@ -164,9 +164,9 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
                 case 0:
                     return FeedFragment.newInstance(token, "");
                 case 1:
-                    return InboxFragment.newInstance("", "");
-                case 3:
-                    return ProfileFragment.newInstance("", "");
+                    return InboxFragment.newInstance(token, "");
+                case 2:
+                    return ProfileFragment.newInstance(token, "");
             }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
@@ -175,8 +175,8 @@ public class TabActivity extends AppCompatActivity implements FeedFragment.OnFra
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
-            return 4;
+            // Show 3 total pages.
+            return 3;
         }
 
         @Override

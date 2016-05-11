@@ -1,8 +1,9 @@
-package com.rashata.jjamie.jibjib.util;
+package com.rashata.jjamie.jibjib.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.rashata.jjamie.jibjib.R;
 import com.rashata.jjamie.jibjib.activity.ViewTranslationActivity;
+import com.rashata.jjamie.jibjib.serializer.Question;
 
 import java.util.ArrayList;
 
@@ -19,12 +21,15 @@ import java.util.ArrayList;
  * Created by JJamie on 4/10/16 AD.
  */
 public class RVQuestionAdapter extends RecyclerView.Adapter<RVQuestionAdapter.QuestionViewHolder> {
+    private static final String TAG = "RVQuestionAdapter";
     ArrayList<Question> questions;
     Context mContext;
+    String token;
 
-    public RVQuestionAdapter(ArrayList<Question> questions, Context context) {
+    public RVQuestionAdapter(ArrayList<Question> questions, Context context, String token) {
         this.questions = questions;
         this.mContext = context;
+        this.token = token;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class RVQuestionAdapter extends RecyclerView.Adapter<RVQuestionAdapter.Qu
     }
 
     @Override
-    public void onBindViewHolder(QuestionViewHolder qvh, int position) {
+    public void onBindViewHolder(QuestionViewHolder qvh, final int position) {
         /*
         switch (questions.get(position).type) {
             case Question.TYPE_BLUE:
@@ -46,23 +51,40 @@ public class RVQuestionAdapter extends RecyclerView.Adapter<RVQuestionAdapter.Qu
                 qvh.linearLyt_item_footer.setBackgroundResource(R.color.pinkDark);
         }
         */
-        qvh.txt_to_language.setText(questions.get(position).to_lang);
-        qvh.txt_from_language.setText(questions.get(position).from_lang);
-//        qvh.txt_number_of_answers.setText(questions.get(position).number_of_answers);
+        qvh.txt_to_language.setText(changeToAbbreviation(questions.get(position).getTo_lang()));
+
+
+        qvh.txt_from_language.setText(changeToAbbreviation(questions.get(position).getFrom_lang()));
+        qvh.txt_number_of_answers.setText(questions.get(position).getCount_ans());
 //        qvh.txt_number_of_views.setText(questions.get(position).number_of_views);
-//        qvh.txt_number_of_votes.setText(questions.get(position).number_of_votes);
-        qvh.txt_item_title.setText(questions.get(position).title);
-        qvh.txt_item_description.setText(questions.get(position).content);
-//        qvh.txt_time_created.setText(questions.get(position).time_created.toString());
-        qvh.txt_name_user_created.setText(questions.get(position).owner);
+        qvh.txt_number_of_votes.setText(questions.get(position).getCount_vote());
+        qvh.txt_item_title.setText(questions.get(position).getTitle());
+        qvh.txt_item_description.setText(questions.get(position).getContent());
+        qvh.txt_time_created.setText(questions.get(position).get_date());
+        qvh.txt_name_user_created.setText(questions.get(position).getOwner());
 
         qvh.rel_item_que.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ViewTranslationActivity.class);
+                intent.putExtra("idQuestion", questions.get(position).getId());
+                intent.putExtra("token", token);
                 mContext.startActivity(intent);
             }
         });
+    }
+
+    public String changeToAbbreviation(String lang) {
+        switch (lang) {
+            case "Thai":
+                return "TH";
+            case "English":
+                return "EN";
+            case "Chinese":
+                return "CH";
+            default:
+                return "";
+        }
     }
 
     @Override

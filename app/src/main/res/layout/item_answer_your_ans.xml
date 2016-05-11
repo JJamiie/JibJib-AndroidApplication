@@ -35,6 +35,7 @@
 
 
     <EditText
+        android:id="@+id/edt_type_your_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="120dp"
@@ -45,9 +46,11 @@
         android:paddingRight="30dp"
         android:paddingTop="15dp"
         android:textColor="@color/grayDark"
+        android:hint="type your answer"
         android:textCursorDrawable="@drawable/cursor_color" />
 
     <Button
+        android:id="@+id/btn_post_your_answer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/btn_blue"

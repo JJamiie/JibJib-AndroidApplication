@@ -6,22 +6,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.rashata.jjamie.jibjib.R;
-import com.rashata.jjamie.jibjib.util.HTTPHelper;
+import com.rashata.jjamie.jibjib.manager.RESTAPIRetrofit;
+import com.rashata.jjamie.jibjib.serializer.Token;
+import com.rashata.jjamie.jibjib.serializer.User;
+import com.rashata.jjamie.jibjib.util.MyHelper;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends Activity {
     private static final String TAG = "LoginActivity";
@@ -59,7 +61,7 @@ public class LoginActivity extends Activity {
 
 
     public void clickSignIn(View v) {
-        AsyncTask<Void, Void, String> loginTask = new AsyncTask<Void, Void, String>() {
+        AsyncTask<Void, Void, Void> loginTask = new AsyncTask<Void, Void, Void>() {
             public String username;
             public String password;
 
@@ -72,29 +74,42 @@ public class LoginActivity extends Activity {
             }
 
             @Override
-            protected String doInBackground(Void... params) {
-                HTTPHelper httpHelper = new HTTPHelper();
-                HashMap<String, String> param = new HashMap<>();
-                param.put("username", username);
-                param.put("password", password);
-                return httpHelper.POST("http://10.201.136.154:8000/api-token-auth/", param);
-            }
+            protected Void doInBackground(Void... params) {
 
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    token = jsonObject.getString("token");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                openLoginActivity();
-                layout_loading.setVisibility(View.GONE);
+//                String BASE_URL = "http://192.168.1.34:8000";
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(MyHelper.getInstance().getBaseUrl())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RESTAPIRetrofit restapiRetrofit = retrofit.create(RESTAPIRetrofit.class);
+                User user = new User(username, password);
+                Call<Token> call = restapiRetrofit.login(user);
+                call.enqueue(new Callback<Token>() {
 
+                    @Override
+                    public void onResponse(Call<Token> call, Response<Token> response) {
+                        Log.d(TAG, String.valueOf(response.body()));
+                        if (response.body() == null) {
+                            MyHelper.getInstance().showToast("username or password is wrong", LoginActivity.this);
+                        } else {
+                            token = "Token " + response.body().getToken();
+                            openLoginActivity();
+
+                        }
+                        layout_loading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Token> call, Throwable t) {
+                        MyHelper.getInstance().showToast("Please connect to the internet", LoginActivity.this);
+                        layout_loading.setVisibility(View.GONE);
+                    }
+                });
+                return null;
             }
         };
         loginTask.execute();
+
 
     }
 

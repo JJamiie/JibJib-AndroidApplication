@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jjamie.virtualadhoc.NewFeedFragment">
+    tools:context=".activity.FeedFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_weight="1.1"
                 android:background="@drawable/btn_from_language_selector"
                 android:stateListAnimator="@null"
-                android:text="English"
+                android:text="From"
                 android:onClick="mClick" />
 
             <Button
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/btn_to_language_selector"
                 android:stateListAnimator="@null"
-                android:text="Thai" />
+                android:text="To" />
 
             <RelativeLayout
                 android:layout_width="40dp"
